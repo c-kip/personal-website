@@ -154,8 +154,16 @@ function solar_system_demo() {
     const earthMat = new THREE.MeshPhongMaterial({color: 0x2233FF, emissive: 0x112244});
     const earthMesh = new THREE.Mesh(sphereGeometry, earthMat);
     earthMesh.position.set(10, 0, 0);
-    solarSystem.add(earthMesh); // Make Earth a child of the Sun
+    solarSystem.add(earthMesh); // Make Earth a child of the solar system
     solar.push(earthMesh);
+
+    // Make the Moon
+    const moonMat = new THREE.MeshPhongMaterial({color: 0x888888, emissive: 0x222222});
+    const moonMesh = new THREE.Mesh(sphereGeometry, moonMat);
+    moonMesh.position.x = 2;
+    moonMesh.scale.set(.5, .5, .5);
+    earthMesh.add(moonMesh);
+    solar.push(moonMesh);
 
     // Render the scene made with our camera
     renderer.render(scene, camera);
