@@ -53,6 +53,14 @@ function main() {
     function render(time) {
         time *= 0.001;  // convert time to seconds
         
+        // Check if the window was resized, and modify canvas accordingly
+        if (resizeRendererResolution(renderer)) {
+            // Update the canvas to show a fixed view (aspect) regardless of window size
+            const canvas = renderer.domElement;
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+        }
+
         // Update the rotation of each cube
         cubes.forEach((cube, ndx) => {
             const speed = 1 + ndx * .1;
@@ -76,6 +84,19 @@ function main() {
         cube.position.x = x;
         return cube;
     } //end of makeInstance()
+
+    // Calculate if the canvas needs to be resized (resolution), and do so
+    // if necessary. Returns true if the canvas was resized.
+    function resizeRendererResolution(renderer) {
+        const canvas = renderer.domElement;
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        if (width !== canvas.width || height !== canvas.height) {
+            renderer.setSize(width, height, false);
+            return true;
+        }
+        return false;
+    }
     requestAnimationFrame(render);
 } //end of main()
 
